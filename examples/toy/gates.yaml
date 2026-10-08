@@ -1,0 +1,26 @@
+schema_version: "1.0"
+n_boot: 100
+g1_data:
+  min_rows: { train: 1000, val: 200, holdout: 200 }
+  max_null_rate: 0.0
+g2_floors:
+  r2: { min: 0.8 }
+  mse: { max: 0.6 }
+g3_regression:
+  metrics:
+    mse: { max_relative_worsening: 0.02 }
+    r2: { max_relative_worsening: 0.02 }
+g4_calibration:
+  calibration_error: { max: 0.05 }
+g5_slices:
+  metric: ae_ratio
+  target: 1.0
+  max_gap: 0.10
+g6_budget:
+  p95_latency_ms: 50
+  max_artifact_mb: 10
+  latency_samples: 50
+g7_repro:
+  metric_epsilon: 1.0e-6
+g8_card:
+  required_sections: [Intended use, Out-of-scope use, Data, Training procedure, Metrics, Slices and calibration, Explainability, Limitations, Provenance]

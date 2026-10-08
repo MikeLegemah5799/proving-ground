@@ -1,0 +1,29 @@
+# Touchpoint 4: gate thresholds. For the claims example every number below was set AFTER training and
+# evaluating the constant baseline and the Poisson GLM; see examples/claims_frequency/docs/GATES.md for how.
+schema_version: "1.0"
+n_boot: 200                        # bootstrap resamples for CIs
+g1_data:
+  min_rows: { train: 50000, val: 5000, holdout: 5000 }
+  max_null_rate: 0.0
+g2_floors:                          # absolute floors on the holdout
+  deviance_skill: { min: 0.04 }     # must beat the constant baseline by >= 4% of deviance
+  gini:           { min: 0.25 }
+  poisson_deviance: { max: 0.600 }
+g3_regression:                      # vs the current champion, same holdout, paired bootstrap
+  metrics:
+    poisson_deviance: { max_relative_worsening: 0.005 }
+    gini:             { max_relative_worsening: 0.020 }
+g4_calibration:
+  decile_calibration_error: { max: 0.10 }
+g5_slices:
+  metric: ae_ratio                  # actual / expected claims
+  target: 1.0
+  max_gap: 0.20
+g6_budget:
+  p95_latency_ms: 30                # single-row predict(), in-process
+  max_artifact_mb: 50
+  latency_samples: 200
+g7_repro:
+  metric_epsilon: 1.0e-6
+g8_card:
+  required_sections: [Intended use, Out-of-scope use, Data, Training procedure, Metrics, Slices and calibration, Explainability, Limitations, Provenance]

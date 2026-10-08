@@ -1,0 +1,18 @@
+name: ci
+on: [push, pull_request]
+permissions: { contents: read }
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: { python: ["3.11", "3.14"] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "${{ matrix.python }}", cache: pip }
+      - run: sudo apt-get update && sudo apt-get install -y libgomp1
+      - run: pip install -e ".[claims,tracking,drift,dev]"
+      - run: make lint
+      - run: make docs-check
+      - run: python -m pytest -q          # no secrets, no network: claims tests use the synthetic stand-in

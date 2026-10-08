@@ -1,0 +1,18 @@
+# Touchpoint 3 (data under DVC). The dataset is NOT committed; DVC tracks hashes only.
+# `make data` runs the same two commands without DVC; `dvc repro` runs them with caching.
+stages:
+  fetch:
+    cmd: python -m examples.claims_frequency.data fetch
+    deps:
+      - examples/claims_frequency/data.py
+    outs:
+      - data/raw/freMTPL2freq.arff
+      - data/raw/PROVENANCE.json
+  prepare:
+    cmd: python -m examples.claims_frequency.data prepare
+    deps:
+      - examples/claims_frequency/data.py
+      - data/raw/freMTPL2freq.arff
+    outs:
+      - data/clean/freMTPL2freq_clean.parquet
+      - data/clean/data_quality_report.json

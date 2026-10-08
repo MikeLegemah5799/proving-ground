@@ -1,0 +1,18 @@
+# Shadow and canary thresholds. All traffic here is simulated (replayed held-out policies).
+schema_version: "1.0"
+shadow:
+  min_requests: 3000
+  min_spearman: 0.85
+  max_exception_rate: 0.01
+  max_latency_delta_ms: 30
+  max_relative_error_increase: 0.05
+  agree_rel_tol: 0.25
+  compare_metric: poisson_deviance
+canary:
+  pct: 10
+  min_requests: 300
+  max_error_rate: 0.02
+  max_p95_latency_ms: 50
+  max_pred_psi: 0.20
+  max_relative_error_increase: 0.10
+  compare_metric: poisson_deviance

@@ -1,0 +1,30 @@
+# SMOKE-TEST thresholds for the labeled-synthetic stand-in dataset (40k rows) used by CI and `make demo-fast`.
+# They are deliberately looser than config/gates.yaml because the sample is small and noisy.
+# They prove the machinery runs; they say nothing about model quality on real data.
+schema_version: "1.0"
+n_boot: 60
+g1_data:
+  min_rows: { train: 10000, val: 1000, holdout: 1000 }
+  max_null_rate: 0.0
+g2_floors:
+  deviance_skill: { min: 0.005 }
+  gini:           { min: 0.10 }
+  poisson_deviance: { max: 0.9 }
+g3_regression:
+  metrics:
+    poisson_deviance: { max_relative_worsening: 0.02 }
+    gini:             { max_relative_worsening: 0.10 }
+g4_calibration:
+  decile_calibration_error: { max: 0.35 }
+g5_slices:
+  metric: ae_ratio
+  target: 1.0
+  max_gap: 0.45
+g6_budget:
+  p95_latency_ms: 60
+  max_artifact_mb: 50
+  latency_samples: 100
+g7_repro:
+  metric_epsilon: 1.0e-6
+g8_card:
+  required_sections: [Intended use, Out-of-scope use, Data, Training procedure, Metrics, Slices and calibration, Explainability, Limitations, Provenance]

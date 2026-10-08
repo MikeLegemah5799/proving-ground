@@ -1,0 +1,12 @@
+# docker compose -f docker/compose.yaml up demo      -> runs the shortened offline demo and writes ./reports
+# docker compose -f docker/compose.yaml up api       -> serves the current champion on :8000 (after a demo run)
+services:
+  demo:
+    build: { context: .., dockerfile: docker/Dockerfile }
+    command: ["python", "-m", "proving_ground.cli", "demo", "--fast"]
+    volumes: ["../reports:/app/reports", "../registry:/app/registry", "../audit:/app/audit", "../logs:/app/logs"]
+  api:
+    build: { context: .., dockerfile: docker/Dockerfile }
+    environment: { PG_ADMIN_TOKEN: "${PG_ADMIN_TOKEN:-change-me}" }
+    ports: ["127.0.0.1:8000:8000"]
+    volumes: ["../registry:/app/registry", "../audit:/app/audit", "../logs:/app/logs", "../reports:/app/reports"]

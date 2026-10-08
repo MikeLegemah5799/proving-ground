@@ -1,0 +1,22 @@
+# Touchpoint 2: point the template at the active ModelProject.
+project: examples.claims_frequency.project:ClaimsFrequencyProject
+# Free-form options passed to the project constructor.
+options:
+  data_source: openml        # auto | openml | synthetic
+  sample: null             # null = all rows; an int subsamples policies (smoke runs)
+tracking: ""            # "" (off) | mlflow  (opt-in mirror into local MLflow/SQLite; see docs/ARCHITECTURE.md)
+paths:
+  registry: registry
+  reports: reports
+  logs: logs
+  audit: audit/decisions.jsonl
+training:
+  seed: 20260101
+  model: glm               # which candidate family `train` builds by default
+demo:                       # the scripted story `make demo` tells (see docs/RUNBOOK.md)
+  families: { baseline: constant, champion: glm, challenger: gbm, degraded: gbm_degraded }
+  scenario: young_driver_surge
+  baseline_windows: 2
+  ramp: [0.0, 0.04, 0.09, 0.2, 0.5, 1.0]     # intensity per window; 0.0 = clean
+  after_windows: 2
+  per_window: 2500

@@ -1,0 +1,29 @@
+name: publish-sample-report
+# Upstream repository only: forks keep the no-secrets, no-setup guarantee and never run this.
+on:
+  push: { branches: [main] }
+  workflow_dispatch:
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  publish:
+    if: github.event.repository.fork == false
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: sudo apt-get update && sudo apt-get install -y libgomp1
+      - run: pip install -e ".[claims,tracking,drift]"
+      - name: Shortened demo on the synthetic stand-in (banner says so)
+        run: python -m proving_ground.cli demo --fast
+      - name: Assemble site (viewer + the evidence it links to)
+        run: |
+          mkdir site && cp -r reports/* site/ && find site -name '*.npz' -delete
+          echo '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=viewer/index.html"><a href="viewer/index.html">Sample report (synthetic demo data)</a>' > site/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: site }
+      - id: deploy
+        uses: actions/deploy-pages@v4

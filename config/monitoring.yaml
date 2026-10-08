@@ -1,0 +1,19 @@
+# Drift thresholds. Levels: ok < watch < alert.
+schema_version: "1.0"
+auto_rollback: false
+window_min_rows: 500
+feature:
+  psi:            { watch: 0.10, alert: 0.25 }
+  ks_stat:        { watch: 0.10, alert: 0.20 }
+  new_category_rate: { watch: 0.005, alert: 0.02 }
+  out_of_range_rate: { watch: 0.01, alert: 0.05 }
+prediction:
+  psi:            { watch: 0.10, alert: 0.25 }
+validation_failure_rate: { watch: 0.002, alert: 0.01 }
+label_drift:
+  metric: ae_ratio         # a key returned by ModelProject.score()
+  watch: 0.10              # |relative change vs reference|
+  alert: 0.20
+  confidence: 0.99         # a change only counts if the bootstrap CI of the window metric excludes the reference
+# How many monitored features must be at `alert` before the window is `alert`.
+min_alert_features: 1

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" role="img" aria-labelledby="t d" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13">
+<title id="t">Proving Ground release pipeline</title>
+<desc id="d">Data is validated and trained into a candidate, passes the gate suite (or is rejected and audited), is registered, runs in shadow then canary, is promoted to champion, and drift monitoring can hold or roll back to the previous champion, with every decision written to a hash-chained audit log.</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#4a5568"/></marker>
+<style>.b{fill:#f5f7fa;stroke:#4a5568;stroke-width:1.5}.g{fill:#e3f5ea;stroke:#0f6b3c;stroke-width:1.5}.r{fill:#fde4e4;stroke:#a4161a;stroke-width:1.5}.y{fill:#fff1d6;stroke:#8a4b00;stroke-width:1.5}.l{stroke:#4a5568;stroke-width:1.5;fill:none;marker-end:url(#a)}text{fill:#14181f}.s{font-size:11px;fill:#4a5568}</style></defs>
+<rect class="b" x="20" y="20" width="150" height="44" rx="6"/><text x="95" y="47" text-anchor="middle">data (DVC) → validate</text>
+<rect class="b" x="210" y="20" width="150" height="44" rx="6"/><text x="285" y="47" text-anchor="middle">train → candidate</text>
+<rect class="y" x="400" y="20" width="170" height="44" rx="6"/><text x="485" y="47" text-anchor="middle">GATE SUITE G1–G8</text>
+<rect class="r" x="610" y="20" width="130" height="44" rx="6"/><text x="675" y="47" text-anchor="middle">reject (audited)</text>
+<path class="l" d="M170,42 H208"/><path class="l" d="M360,42 H398"/><path class="l" d="M570,42 H608"/><text class="s" x="575" y="36">fail</text>
+<rect class="b" x="400" y="110" width="170" height="44" rx="6"/><text x="485" y="137" text-anchor="middle">register as candidate</text>
+<path class="l" d="M485,64 V108"/><text class="s" x="492" y="90">pass</text>
+<rect class="b" x="400" y="200" width="170" height="52" rx="6"/><text x="485" y="224" text-anchor="middle">SHADOW</text><text class="s" x="485" y="241" text-anchor="middle">scored, never returned</text>
+<path class="l" d="M485,154 V198"/>
+<rect class="b" x="400" y="290" width="170" height="52" rx="6"/><text x="485" y="314" text-anchor="middle">CANARY 10%</text><text class="s" x="485" y="331" text-anchor="middle">stable-hash routing</text>
+<path class="l" d="M485,252 V288"/><path class="l" d="M570,316 H640"/><rect class="r" x="640" y="296" width="100" height="40" rx="6"/><text x="690" y="320" text-anchor="middle">abort → 0%</text><text class="s" x="605" y="310">breach</text>
+<rect class="g" x="400" y="380" width="170" height="44" rx="6"/><text x="485" y="407" text-anchor="middle">PROMOTE → champion</text>
+<path class="l" d="M485,342 V378"/>
+<rect class="y" x="150" y="380" width="170" height="44" rx="6"/><text x="235" y="407" text-anchor="middle">DRIFT MONITOR</text>
+<path class="l" d="M398,402 H322"/><text class="s" x="330" y="396">continuous</text>
+<rect class="r" x="150" y="455" width="170" height="44" rx="6"/><text x="235" y="482" text-anchor="middle">HOLD / ROLLBACK</text>
+<path class="l" d="M235,424 V453"/><text class="s" x="243" y="444">alert</text>
+<path class="l" d="M320,477 H378 Q485,477 485,426"/><text class="s" x="330" y="470">previous champion restored</text>
+<rect class="b" x="20" y="120" width="300" height="190" rx="6" stroke-dasharray="5 4"/><text x="170" y="145" text-anchor="middle">hash-chained audit log</text>
+<text class="s" x="34" y="168">promote · reject · hold · rollback · canary_abort</text>
+<text class="s" x="34" y="188">each entry: prev_entry_hash, entry_hash,</text><text class="s" x="34" y="204">git SHA, data version, gate-config hash, evidence</text>
+<text class="s" x="34" y="228">canonical JSON (sorted keys, UTF-8)</text><text class="s" x="34" y="244">→ verified by `make audit-verify`</text><text class="s" x="34" y="260">→ re-verified in the report viewer</text>
+<text class="s" x="34" y="290">tamper-evident, not tamper-proof</text>
+</svg>

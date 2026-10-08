@@ -1,0 +1,38 @@
+schema: '2.0'
+stages:
+  fetch:
+    cmd: python -m examples.claims_frequency.data fetch
+    deps:
+    - path: examples/claims_frequency/data.py
+      hash: md5
+      md5: c28329eabd5691d3ed7b67a8f6f54307
+      size: 9249
+    outs:
+    - path: data/raw/PROVENANCE.json
+      hash: md5
+      md5: 51c8ed52bd39dd57995bf413d56c50ec
+      size: 553
+    - path: data/raw/freMTPL2freq.arff
+      hash: md5
+      md5: f8875568bf0ca622929105197e2db613
+      size: 36288567
+  prepare:
+    cmd: python -m examples.claims_frequency.data prepare
+    deps:
+    - path: data/raw/freMTPL2freq.arff
+      hash: md5
+      md5: f8875568bf0ca622929105197e2db613
+      size: 36288567
+    - path: examples/claims_frequency/data.py
+      hash: md5
+      md5: c28329eabd5691d3ed7b67a8f6f54307
+      size: 9249
+    outs:
+    - path: data/clean/data_quality_report.json
+      hash: md5
+      md5: 12c0897d4ba480908d712a2c79b2ce9e
+      size: 1436
+    - path: data/clean/freMTPL2freq_clean.parquet
+      hash: md5
+      md5: 384f74d843c1e5a06c48aa743e36cd46
+      size: 7412236
