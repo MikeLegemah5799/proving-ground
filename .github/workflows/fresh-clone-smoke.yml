@@ -10,7 +10,7 @@ jobs:
     container: python:3.12-slim
     steps:
       - run: apt-get update && apt-get install -y git make libgomp1
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: "Follow the README (setup, then the shortened demo; offline, no secrets)"
         run: |
           make setup
