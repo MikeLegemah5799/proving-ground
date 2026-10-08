@@ -23,7 +23,7 @@ jobs:
           mkdir site && cp -r reports/* site/ && find site -name '*.npz' -delete
           echo '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=viewer/index.html"><a href="viewer/index.html">Sample report (synthetic demo data)</a>' > site/index.html
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with: { path: site }
       - id: deploy
         uses: actions/deploy-pages@v4
